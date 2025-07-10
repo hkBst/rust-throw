@@ -15,10 +15,7 @@ macro_rules! assert_matches {
 
         assert!(
             re.is_match(&actual),
-            format!(
-                "expected error to match regex `\n{}\n`, but found `\n{}\n`",
-                expected, actual
-            )
+            "{}", "expected error to match regex `\n{expected}\n`, but found `\n{actual}\n`",
         );
     }};
 }
