@@ -222,14 +222,8 @@ use serde::ser::{Serialize, SerializeStruct, Serializer};
 
 /// Types allowed to be value in the context vector
 #[derive(Debug, Clone)]
-#[cfg_attr(
-    any(feature = "serde-1", feature = "serde-1-std"),
-    derive(Serialize)
-)]
-#[cfg_attr(
-    any(feature = "serde-1", feature = "serde-1-std"),
-    serde(untagged)
-)]
+#[cfg_attr(any(feature = "serde-1", feature = "serde-1-std"), derive(Serialize))]
+#[cfg_attr(any(feature = "serde-1", feature = "serde-1-std"), serde(untagged))]
 pub enum ThrowContextValues {
     /// Boolean context value
     Bool(bool),
@@ -356,10 +350,7 @@ pub type Result<T, E> = core::result::Result<T, Error<E>>;
 
 /// Represents a location at which an error was thrown via throw!()
 #[derive(Debug)]
-#[cfg_attr(
-    any(feature = "serde-1", feature = "serde-1-std"),
-    derive(Serialize)
-)]
+#[cfg_attr(any(feature = "serde-1", feature = "serde-1-std"), derive(Serialize))]
 pub struct ErrorPoint {
     line: u32,
     column: u32,
@@ -410,10 +401,7 @@ impl ErrorPoint {
 
 /// represent a key-value pair
 #[derive(Debug, Clone)]
-#[cfg_attr(
-    any(feature = "serde-1", feature = "serde-1-std"),
-    derive(Serialize)
-)]
+#[cfg_attr(any(feature = "serde-1", feature = "serde-1-std"), derive(Serialize))]
 pub struct KvPair {
     key: &'static str,
     value: ThrowContextValues,
@@ -541,21 +529,21 @@ where
     E: fmt::Display,
 {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
-        try!(write!(fmt, "Error: {}", self.error));
+        write!(fmt, "Error: {}", self.error)?;
 
         for kv in self.context.iter().rev() {
-            try!(write!(fmt, "\n\t{}: {}", kv.key(), kv.value(),));
+            write!(fmt, "\n\t{}: {}", kv.key(), kv.value(),)?;
         }
 
         for point in self.points.iter().rev() {
-            try!(write!(
+            write!(
                 fmt,
                 "\n\tat {}:{} in {} ({})",
                 point.line(),
                 point.column(),
                 point.module_path(),
                 point.file()
-            ));
+            )?;
         }
 
         Ok(())
@@ -567,19 +555,19 @@ where
     E: fmt::Debug,
 {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
-        try!(write!(fmt, "Error: {:?}", self.error));
+        write!(fmt, "Error: {:?}", self.error)?;
         for kv in self.context.iter().rev() {
-            try!(write!(fmt, "\n\t{}: {}", kv.key(), kv.value(),));
+            write!(fmt, "\n\t{}: {}", kv.key(), kv.value(),)?;
         }
         for point in self.points.iter().rev() {
-            try!(write!(
+            write!(
                 fmt,
                 "\n\tat {}:{} in {} ({})",
                 point.line(),
                 point.column(),
                 point.module_path(),
                 point.file()
-            ));
+            )?;
         }
 
         Ok(())
@@ -589,7 +577,7 @@ where
 #[cfg(feature = "std")]
 impl<E> std::error::Error for Error<E>
 where
-    E: std::error::Error
+    E: std::error::Error,
 {
     fn description(&self) -> &str {
         self.error().description()

@@ -4,6 +4,7 @@ name = "throw"
 version = "0.1.7"
 authors = ["David Ross <daboross@daboross.net>"]
 description = "Efficiently add statically-calculated stack traces to errors."
+edition = "2024"
 
 documentation = "https://docs.rs/throw/"
 repository = "https://github.com/daboross/rust-throw/"
