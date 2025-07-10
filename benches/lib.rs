@@ -32,7 +32,7 @@ fn throws_throw_ok() -> Result<&'static str, &'static str> {
 
 #[inline(never)]
 fn throws_try_ok() -> StdResult<&'static str, &'static str> {
-    let ok_msg = test::black_box(try!(gives_ok()));
+    let ok_msg = test::black_box(gives_ok()?);
     Ok(ok_msg)
 }
 
