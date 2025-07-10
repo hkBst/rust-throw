@@ -1,6 +1,5 @@
 #![cfg_attr(not(feature = "std"), no_std)]
-#![cfg_attr(not(feature = "std"), feature(alloc))]
-#![deny(missing_docs)]
+#![warn(missing_docs)]
 #![doc(html_root_url = "https://docs.rs/throw/0.1.7")]
 //! Throw!
 //! ------
