@@ -262,92 +262,92 @@ pub enum ThrowContextValues {
 impl fmt::Display for ThrowContextValues {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            ThrowContextValues::Bool(ref x) => write!(f, "{}", x),
-            ThrowContextValues::Int8(ref x) => write!(f, "{}", x),
-            ThrowContextValues::Uint8(ref x) => write!(f, "{}", x),
-            ThrowContextValues::Int16(ref x) => write!(f, "{}", x),
-            ThrowContextValues::Uint16(ref x) => write!(f, "{}", x),
-            ThrowContextValues::Int32(ref x) => write!(f, "{}", x),
-            ThrowContextValues::Uint32(ref x) => write!(f, "{}", x),
-            ThrowContextValues::Int64(ref x) => write!(f, "{}", x),
-            ThrowContextValues::Uint64(ref x) => write!(f, "{}", x),
-            ThrowContextValues::Float32(ref x) => write!(f, "{}", x),
-            ThrowContextValues::Float64(ref x) => write!(f, "{}", x),
-            ThrowContextValues::String(ref x) => write!(f, "{}", x),
-            ThrowContextValues::StaticStr(ref x) => write!(f, "{}", x),
+            ThrowContextValues::Bool(ref x) => write!(f, "{x}"),
+            ThrowContextValues::Int8(ref x) => write!(f, "{x}"),
+            ThrowContextValues::Uint8(ref x) => write!(f, "{x}"),
+            ThrowContextValues::Int16(ref x) => write!(f, "{x}"),
+            ThrowContextValues::Uint16(ref x) => write!(f, "{x}"),
+            ThrowContextValues::Int32(ref x) => write!(f, "{x}"),
+            ThrowContextValues::Uint32(ref x) => write!(f, "{x}"),
+            ThrowContextValues::Int64(ref x) => write!(f, "{x}"),
+            ThrowContextValues::Uint64(ref x) => write!(f, "{x}"),
+            ThrowContextValues::Float32(ref x) => write!(f, "{x}"),
+            ThrowContextValues::Float64(ref x) => write!(f, "{x}"),
+            ThrowContextValues::String(ref x) => write!(f, "{x}"),
+            ThrowContextValues::StaticStr(ref x) => write!(f, "{x}"),
         }
     }
 }
 
-impl Into<ThrowContextValues> for u8 {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::Uint8(self)
+impl From<u8> for ThrowContextValues {
+    fn from(val: u8) -> Self {
+        ThrowContextValues::Uint8(val)
     }
 }
 
-impl Into<ThrowContextValues> for i8 {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::Int8(self)
+impl From<i8> for ThrowContextValues {
+    fn from(val: i8) -> Self {
+        ThrowContextValues::Int8(val)
     }
 }
 
-impl Into<ThrowContextValues> for u16 {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::Uint16(self)
+impl From<u16> for ThrowContextValues {
+    fn from(val: u16) -> Self {
+        ThrowContextValues::Uint16(val)
     }
 }
 
-impl Into<ThrowContextValues> for i16 {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::Int16(self)
+impl From<i16> for ThrowContextValues {
+    fn from(val: i16) -> Self {
+        ThrowContextValues::Int16(val)
     }
 }
 
-impl Into<ThrowContextValues> for u32 {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::Uint32(self)
+impl From<u32> for ThrowContextValues {
+    fn from(val: u32) -> Self {
+        ThrowContextValues::Uint32(val)
     }
 }
 
-impl Into<ThrowContextValues> for i32 {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::Int32(self)
+impl From<i32> for ThrowContextValues {
+    fn from(val: i32) -> Self {
+        ThrowContextValues::Int32(val)
     }
 }
 
-impl Into<ThrowContextValues> for u64 {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::Uint64(self)
+impl From<u64> for ThrowContextValues {
+    fn from(val: u64) -> Self {
+        ThrowContextValues::Uint64(val)
     }
 }
 
-impl Into<ThrowContextValues> for i64 {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::Int64(self)
+impl From<i64> for ThrowContextValues {
+    fn from(val: i64) -> Self {
+        ThrowContextValues::Int64(val)
     }
 }
 
-impl Into<ThrowContextValues> for f32 {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::Float32(self)
+impl From<f32> for ThrowContextValues {
+    fn from(val: f32) -> Self {
+        ThrowContextValues::Float32(val)
     }
 }
 
-impl Into<ThrowContextValues> for f64 {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::Float64(self)
+impl From<f64> for ThrowContextValues {
+    fn from(val: f64) -> Self {
+        ThrowContextValues::Float64(val)
     }
 }
 
-impl<'a> Into<ThrowContextValues> for &'static str {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::StaticStr(self)
+impl From<&'static str> for ThrowContextValues {
+    fn from(val: &'static str) -> Self {
+        ThrowContextValues::StaticStr(val)
     }
 }
 
-impl Into<ThrowContextValues> for String {
-    fn into(self) -> ThrowContextValues {
-        ThrowContextValues::String(self)
+impl From<String> for ThrowContextValues {
+    fn from(val: String) -> Self {
+        ThrowContextValues::String(val)
     }
 }
 
@@ -400,10 +400,10 @@ impl ErrorPoint {
         file: &'static str,
     ) -> ErrorPoint {
         ErrorPoint {
-            line: line,
-            column: column,
-            module_path: module_path,
-            file: file,
+            line,
+            column,
+            module_path,
+            file,
         }
     }
 }
@@ -438,7 +438,6 @@ impl KvPair {
 
 /// Represents an error. Stores an original error of type E, and any number of ErrorPoints at
 /// which the error was propagated.
-
 pub struct Error<E> {
     points: Vec<ErrorPoint>,
     context: Vec<KvPair>,
@@ -466,7 +465,7 @@ impl<E> Error<E> {
         Error {
             points: Vec::new(),
             context: Vec::new(),
-            error: error,
+            error,
         }
     }
 
@@ -596,7 +595,7 @@ where
         self.error().description()
     }
 
-    fn cause(&self) -> Option<&std::error::Error> {
+    fn cause(&self) -> Option<&dyn std::error::Error> {
         Some(self.error())
     }
 }
